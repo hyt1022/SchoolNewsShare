@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>saveCustomer</title>
+</head>
+<body>
+<h1>Thymeleaf tutorial - Solution for exercise 12: forms</h1>
+         <h2>Customer edition</h2>
+         <form action="saveCustomer.html" th:action="@{/saveCustomer.html}" th:object="${customer}" method="post">
+                 <input type="hidden" th:field="*{id}" />
+
+                 <label for="firstName">First name:</label>
+                 <input type="text" th:field="*{firstName}" value="John" />
+
+                 <label for="lastName">Last name:</label>
+                 <input type="text" th:field="*{lastName}" value="Wayne" />
+         </form>
+<p th:value="${customer.firstname}">first name</p>
+<p th:value="${customer.id}">id</p>
+
+</body>
+</html>

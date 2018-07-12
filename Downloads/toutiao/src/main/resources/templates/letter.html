@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>校园资讯-HUST</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/font-awesome.min.css}" />
+    <link rel="stylesheet" media="all" th:href="@{/styles/style.css}" />
+
+    <script type="text/javascript" src="/scripts/jquery.js"></script>
+    <script type="text/javascript" src="/scripts/main/base/base.js"></script>
+    <script type="text/javascript" src="/scripts/main/base/util.js"></script>
+    <script type="text/javascript" src="/scripts/main/base/event.js"></script>
+    <script type="text/javascript" src="/scripts/main/base/upload.js"></script>
+    <script type="text/javascript" src="/scripts/main/component/component.js"></script>
+    <script type="text/javascript" src="/scripts/main/component/popup.js"></script>
+    <script type="text/javascript" src="/scripts/main/component/popupLogin.js"></script>
+    <script type="text/javascript" src="/scripts/main/component/upload.js"></script>
+    <script type="text/javascript" src="/scripts/main/component/popupUpload.js"></script>
+    <script type="text/javascript" src="/scripts/main/util/action.js"></script>
+    <script type="text/javascript" src="/scripts/main/site/home.js"></script>
+
+</head>
+<body class="welcome_index">
+
+<header class="navbar navbar-default navbar-static-top bs-docs-nav" id="top" role="banner">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <a href="/" class="navbar-brand logo">
+                <h1>校园资讯</h1>
+                <h3>一流校园资讯平台</h3>
+            </a>
+        </div>
+
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+
+            <ul class="nav navbar-nav navbar-right">
+
+
+                <li class=""><a href="/">资讯</a></li>
+                <!--/*@thymesVar id="user" type="com.nowcoder.toutiao.model.User*/-->
+                <li class="js-share" th:if="${user}"><a href="javascript:void(0);">分享</a></li>
+                <li class="" th:if="${user}"><a href="/msg/list">站内信</a></li>
+                <li class="" th:if="${user}"><a th:href="@{/user/{userid}(userid=${user.id})}"><span th:text="${user.name}">cnm</span></a></li>
+
+                <li class="js-login" th:unless="${user}"><a href="javascript:void(0);">登陆</a></li>
+
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div id="main">
+    <div class="container">
+
+        <ul class="letter-list">
+
+                <li id="conversation-item-10005_622873"  th:each="conversation,iterator : ${conversations}">
+                    <!--/*@thymesVar id="conversation" type="com.nowcoder.toutiao.model.ViewObject"*/-->
+                    <!--/*@thymesVar id="message" type="com.nowcoder.toutiao.model.Message"*/-->
+                    <a class="letter-link" th:href="@{/msg/detail(conversationId=${conversation.message.conversationId})}"></a>
+                    <div class="letter-info">
+                        <span class="l-time" th:text="${#dates.format(conversation.message.createdDate,'yyyy-MM-dd HH:mm:ss')}"></span>
+                        <div class="l-operate-bar">
+                            <a href="javascript:void(0);" class="sns-action-del" th:data-id="10005_622873">
+                                删除
+                            </a>
+                            <!--/*@thymesVar id="message" type="com.nowcoder.toutiao.model.Message"*/-->
+                            <a th:href="@{/msg/detail(conversationId=${conversation.message.conversationId})}">
+                               <span th:text="${conversation.message.id}">共{conversation.conversation.id}条会话</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="chat-headbox">
+                        <!--/*@thymesVar id="conversation" type="com.nowcoder.toutiao.model.ViewObject"*/-->
+                        <span class="msg-num" th:text="${conversation.unreadCount}">
+                            {conversation.unread}
+                        </span>
+                        <!--/*@thymesVar id="conversation" type="com.nowcoder.toutiao.model.ViewObject"*/-->
+                        <!--/*@thymesVar id="user" type="com.nowcoder.toutiao.model.User"*/-->
+                        <a class="list-head" th:href="@{/user/{userid}(userid=${conversation.user.id})}">
+                            <img width="50" class="img-circle" th:src="@{${conversation.user.headUrl}}">
+                        </a>
+                    </div>
+                    <div class="letter-detail">
+                        <!--/*@thymesVar id="conversation" type="com.nowcoder.toutiao.model.ViewObject"*/-->
+                        <!--/*@thymesVar id="user" type="com.nowcoder.toutiao.model.User"*/-->
+                        <a title="${conversation.user.username}" class="letter-name level-color-1">
+                            <span th:text="${conversation.user.username}" ></span>
+                        </a>
+                        <p class="letter-brief">
+                            <a th:href="@{/msg/detail(conversationId=${conversation.message.conversationId})}">
+                                <span th:text="${conversation.message.content}" ></span>
+                            </a>
+                        </p>
+                    </div>
+                </li>
+        </ul>
+
+        <div class="button-control">
+            <div class="button" th:unless="${page eq 1}">
+                <a th:href="@{/msg/list(page=${page-1})}">上一页</a>
+            </div>
+            <div class="button" th:unless="${page eq size}">
+                <a th:href="@{/msg/list(page=${page+1})}">下一页</a>
+            </div>
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        $(function(){
+
+            // If really is weixin
+            $(document).on('WeixinJSBridgeReady', function() {
+
+                $('.weixin-qrcode-dropdown').show();
+
+                var options = {
+                    "img_url": "",
+                    "link": "http://nowcoder.com/j/wt2rwy",
+                    "desc": "",
+                    "title": "读《Web 全栈工程师的自我修养》"
+                };
+
+                WeixinJSBridge.on('menu:share:appmessage', function (argv){
+                    WeixinJSBridge.invoke('sendAppMessage', options, function (res) {
+                        // _report('send_msg', res.err_msg)
+                    });
+                });
+
+                WeixinJSBridge.on('menu:share:timeline', function (argv) {
+                    WeixinJSBridge.invoke('shareTimeline', options, function (res) {
+                        // _report('send_msg', res.err_msg)
+                    });
+                });
+
+                // $(window).on('touchmove scroll', function() {
+                //   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                //     $('div.backdrop').show();
+                //     $('div.share-help').show();
+                //   } else {
+                //     $('div.backdrop').hide();
+                //     $('div.share-help').hide();
+                //   }
+                // });
+
+            });
+
+        })
+    </script>
+</div>
+
+
+<footer>
+    <div class="container">
+        <p class="text-center">
+            <a href="http://nowcoder.com/about">关于我们</a>
+            <a href="http://nowcoder.com/download">校园资讯</a>
+        </p>
+        <p class="text-center">© 2018-6 校园资讯</p>
+    </div>
+
+</footer>
+
+<div id="quick-download">
+    <button type="button" class="close-link btn-link" data-toggle="modal" data-target="#quick-download-app-modal"><i class="fa icon-times-circle"></i></button>
+
+</div>
+
+</body>
+</html>

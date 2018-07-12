@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>校园资讯-HUST</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/font-awesome.min.css}" />
+    <link rel="stylesheet" media="all" th:href="@{/styles/style.css}" />
+    <link rel="stylesheet" media="all" th:href="@{/styles/home.css}" />
+
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="home.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
+
+
+    <script type="text/javascript" src="/scripts/jquery.js"></script>
+    <script type="text/javascript" src="/scripts/main/base/base.js"></script>
+    <script type="text/javascript" src="/scripts/main/base/util.js"></script>
+    <script type="text/javascript" src="/scripts/main/base/event.js"></script>
+    <script type="text/javascript" src="/scripts/main/base/upload.js"></script>
+    <script type="text/javascript" src="/scripts/main/component/component.js"></script>
+    <script type="text/javascript" src="/scripts/main/component/popup.js"></script>
+    <script type="text/javascript" src="/scripts/main/component/popupLogin.js"></script>
+    <script type="text/javascript" src="/scripts/main/component/upload.js"></script>
+    <script type="text/javascript" src="/scripts/main/component/popupUpload.js"></script>
+    <script type="text/javascript" src="/scripts/main/util/action.js"></script>
+    <script type="text/javascript" src="/scripts/main/site/home.js"></script>
+    <script type="text/javascript" src="/scripts/main/site/detail.js"></script>
+
+
+</head>
+<body class="welcome_index">
+
+<header class="navbar navbar-default navbar-static-top bs-docs-nav" id="top" role="banner">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <a href="/" class="navbar-brand logo">
+                <h1>校园资讯平台</h1>
+                <h3>你最想了解的校园资讯</h3>
+            </a>
+        </div>
+
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+
+            <ul class="nav navbar-nav navbar-right">
+
+
+                <li class=""><a href="/">资讯</a></li>
+                <!--/*@thymesVar id="user" type="com.nowcoder.toutiao.model.User*/-->
+                <li class="js-share" th:if="${user}"><a href="javascript:void(0);">分享</a></li>
+                <li class="" th:if="${user}"><a href="/msg/list">站内信</a></li>
+                <li class="" th:if="${user}"><a th:href="@{/user/{userid}(userid=${user.id})}"><span th:text="${user.name}">cnm</span></a></li>
+
+                <li class="js-login" th:unless="${user}"><a href="javascript:void(0);">登陆</a></li>
+
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="personal-top">
+    <!--/*@thymesVar id="userInfo" type="com.nowcoder.toutiao.model.User"*/-->
+    <div class="personal-top-photo">
+        <img th:src="@{${userInfo.headUrl}}" height="80" width="80"/>
+    </div>
+    <div class="personal-top-inf">
+        <div class="personal-top-inf-name">
+            <span th:text="${userInfo.username}">南渡、北归</span>
+        </div>
+        <div class="personal-top-inf-detail">
+            <span th:text="${userInfo.school}">武汉</span>   &nbsp;&nbsp;&nbsp; <a th:href="@{/user/{userId}/follow(userId=${userInfo.id})}">关注了<span th:text="${userInfo.followCount}"></span></a>  |
+            <a th:href="@{/user/{userId}/fans(userId=${userInfo.id})}">关注者<span th:text="${userInfo.fansCount}"></span></a>
+        </div>
+    </div>
+    <!--/*@thymesVar id="isUser" type="com.nowcoder.toutiao.model.ViewObject"*/-->
+    <div class="personal-top-button" th:if="${isUser}">
+        <div class="button" id="add">
+            <a th:href="@{/user/edit}">编辑</a>
+        </div>
+        <div class="button"  data-toggle="modal" data-target="#myModal2">
+            申请
+        </div>
+    </div>
+
+    <div class="personal-top-button" th:unless="${isUser}">
+        <div class="button" id="add" th:unless="${isFollowed}">
+            <a th:href="@{/addRelation(toId=${userInfo.id})}">加关注</a>
+        </div>
+        <div class="button-focus" th:if="${isFollowed}"id="cancel">
+            <a th:href="@{/deleteRelation(toId=${userInfo.id})}">已关注</a>
+        </div>
+        <div class="button"  data-toggle="modal" data-target="#myModal">
+            私信
+        </div>
+    </div>
+</div>
+<div class="personal-left">
+    <div class="personal-left-select">
+        <a th:href="@{/user/{userid}(userid=${userInfo.id})}">个人主页</a>
+    </div>
+    <div class="personal-left-select">
+        <a th:href="@{/user/{userid}/latest(userid=${userInfo.id})}">我的资讯</a>
+    </div>
+    <div class="personal-left-selected">
+        <a th:href="@{/user/{userid}/collection(userid=${userInfo.id})}">我的收藏</a>
+    </div>
+</div>
+
+<div class="personal-main">
+    <div class="container">
+        <div class="jscroll-inner">
+            <!--/*@thymesVar id="collectionNews" type="com.nowcoder.toutiao.model.ViewObject"*/-->
+            <!--/*@thymesVar id="news" type="com.nowcoder.toutiao.model.News"*/-->
+            <div th:each="vo,iterStat:${collectionNews}">
+                <div class="posts" th:unless="${iterStat.count} eq ${collectionNews.size()+1}" >
+                    <div class="post">
+                        <div class="content" data-url="http://nowcoder.com/posts/5l3hjr">
+                            <div>
+                                <!--/*@thymesVar id="news" type="com.nowcoder.toutiao.model.News"*/-->
+                                <img class="content-img" th:src="@{${vo.news.image}}" alt="">
+                            </div>
+                            <div class="content-main">
+                                <h4>
+                                    <a target="_blank" rel="external nofollow" th:href="@{/news/{newsId}(newsId=${vo.news.id})}"><span th:text="${vo.news.title}"></span> </a>
+                                </h4>
+                                <div class="meta">
+                                    <span th:text=" ${vo.news.link}"></span>
+                                    <span>
+                            <i class="fa icon-comment" th:text="${vo.news.commentCount}"></i>
+                        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<footer class="footer-control">
+    <div class="container">
+        <p class="text-center">
+            <a href="http://nowcoder.com/about">关于我们</a>
+            <a href="http://nowcoder.com/download">校园资讯</a>
+        </p>
+        <p class="text-center">© 2018-6 校园资讯</p>
+    </div>
+
+</footer>
+
+<div id="quick-download">
+    <button type="button" class="close-link btn-link" data-toggle="modal" data-target="#quick-download-app-modal"><i class="fa icon-times-circle"></i></button>
+
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <!--/*@thymesVar id="userInfo" type="com.nowcoder.toutiao.model.User"*/-->
+    <form th:action="@{/msg/addMessage(toId=${userInfo.id})} ">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">私信</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="mytext">请输入私信内容</label>
+                    <textarea class="form-control" rows="3" id="mytext" name="content"></textarea>
+                    <input th:value="${userInfo.id}" name="toId" style="display: none">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-success">提交</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel2">提示</h4>
+            </div>
+            <div class="modal-body">
+                <p class="pForm">
+                    请将申请材料发到我们邮箱。
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+

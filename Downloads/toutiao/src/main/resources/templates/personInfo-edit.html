@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>校园资讯-HUST</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/font-awesome.min.css}" />
+    <link rel="stylesheet" media="all" th:href="@{/styles/style.css}" />
+    <link rel="stylesheet" media="all" th:href="@{/styles/home.css}" />
+
+
+    <script type="text/javascript" src="/scripts/jquery.js"></script>
+    <script type="text/javascript" src="/scripts/main/base/base.js"></script>
+    <script type="text/javascript" src="/scripts/main/base/util.js"></script>
+    <script type="text/javascript" src="/scripts/main/base/event.js"></script>
+    <script type="text/javascript" src="/scripts/main/base/upload.js"></script>
+    <script type="text/javascript" src="/scripts/main/component/component.js"></script>
+    <script type="text/javascript" src="/scripts/main/component/popup.js"></script>
+    <script type="text/javascript" src="/scripts/main/component/popupLogin.js"></script>
+    <script type="text/javascript" src="/scripts/main/component/upload.js"></script>
+    <script type="text/javascript" src="/scripts/main/component/popupUpload.js"></script>
+    <script type="text/javascript" src="/scripts/main/component/popupUploadHead.js"></script>
+    <script type="text/javascript" src="/scripts/main/util/action.js"></script>
+    <script type="text/javascript" src="/scripts/main/site/home.js"></script>
+    <script type="text/javascript" src="/scripts/main/site/detail.js"></script>
+
+
+</head>
+<body class="welcome_index">
+
+<header class="navbar navbar-default navbar-static-top bs-docs-nav" id="top" role="banner">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <a href="/" class="navbar-brand logo">
+                <h1>校园资讯平台</h1>
+                <h3>你最想了解的校园资讯</h3>
+            </a>
+        </div>
+
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+
+            <ul class="nav navbar-nav navbar-right">
+
+
+                <li class=""><a href="/">资讯</a></li>
+                <!--/*@thymesVar id="user" type="com.nowcoder.toutiao.model.User*/-->
+                <li class="js-share" th:if="${user}"><a href="javascript:void(0);">分享</a></li>
+                <li class="" th:if="${user}"><a href="/msg/list">站内信</a></li>
+                <li class="" th:if="${user}"><a th:href="@{/user/{userid}(userid=${user.id})}"><span th:text="${user.name}">cnm</span></a></li>
+
+                <li class="js-login" th:unless="${user}"><a href="javascript:void(0);">登陆</a></li>
+
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+<div class="edit-main">
+
+    <div class="edit-inf">
+        <form action="/user/saveEdit">
+            <div class="form-group">
+                <label for="username">修改昵称</label>
+                <input type="text" class="form-control" name="username" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="school">学校</label>
+                <input type="text" class="form-control" name="school" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="age">年龄</label>
+                <input type="text" class="form-control" name="age" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="intro">个人介绍</label>
+                <textarea class="form-control" name="intro" placeholder="" rows="3">
+                </textarea>
+            </div>
+            <label>性别</label>
+
+            <label class="radio-inline">
+                <input type="radio" name="sex" id="inlineRadio1" value="1"> 男
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="sex" id="inlineRadio2" value="0"> 女
+            </label>
+
+            <br>
+            <br>
+            <br>
+            <button type="submit" class="btn btn-primary">保存</button>
+        </form>
+
+    </div>
+
+</div>
+
+<footer>
+    <div class="container">
+        <p class="text-center">
+            <a href="http://nowcoder.com/about">关于我们</a>
+            <a href="http://nowcoder.com/download">校园资讯</a>
+        </p>
+        <p class="text-center">© 2018-6 校园资讯</p>
+    </div>
+
+</footer>
+
+<div id="quick-download">
+    <button type="button" class="close-link btn-link" data-toggle="modal" data-target="#quick-download-app-modal"><i class="fa icon-times-circle"></i></button>
+
+</div>
+
+</body>
+</html>
+
